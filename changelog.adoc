@@ -1,0 +1,7 @@
+= Changelog
+
+== Unreleased — 2026-08-18
+
+* Initial CLI: apply a curated Trusted Sites seed into the Windows ZoneMap, add/remove/list, doctor dump, Public Suffix List splitting, denylist for UGC and object storage, and safe HKCU-by-default writes.
++
+Details: link:changelog-details/2026-08-18%20-%20initial%20CLI.adoc[2026-08-18 - initial CLI]

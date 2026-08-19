@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup D (LDC)
+        uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: ldc
+
+      - name: Test
+        run: dub test --compiler=ldc2
+
+      - name: Build
+        run: dub build --compiler=ldc2
+
+      - name: Smoke
+        run: |
+          .\bin\zone-out.exe --version
+          .\bin\zone-out.exe seed | Select-Object -First 5
+          .\bin\zone-out.exe apply --dry-run --hive hkcu
+        shell: pwsh
+
+      - name: Upload exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: zone-out-windows-x64
+          path: bin/zone-out.exe

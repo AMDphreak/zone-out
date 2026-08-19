@@ -1,0 +1,22 @@
+= 2026-08-18 — Initial CLI
+
+First cut of *zone-out*: a Windows D CLI that writes WinINet Trusted Sites so Explorer PDF preview stops blocking first-party downloads you already trust.
+
+== Why
+
+Mark of the Web on Downloads makes Explorer refuse PDF preview. Blind `Unblock-File` is the wrong default for Drive/Discord shares. Zone Map membership is the Windows-native way to say "this origin is a Trusted Site" for Chromium Attachment Manager.
+
+== What shipped
+
+* Commands: `apply`, `add`, `remove`, `list`, `seed`, `denylist`, `doctor`, `--help`, `--version`
+* Hive: HKCU by default for writes; `--hive hklm|hkcu|both` when you want explicit scope
+* Bundled seed (AI export hosts + vendor docs) and denylist (UGC / object storage / user-page TLDs)
+* Public Suffix List snapshot so `example.co.uk` does not become a `co.uk` key
+* `--dry-run` and `--json`
+
+== Out of scope (this drop)
+
+* LLM classification of Tranco/history candidates
+* Firefox
+* PDF sanitizers (Dangerzone / Ghostscript)
+* Downloads-folder MotW watcher

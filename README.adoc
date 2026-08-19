@@ -1,0 +1,126 @@
+ifndef::env-github[:icons: font]
+:toc: preamble
+:toclevels: 2
+:sectanchors:
+
+ifdef::env-github[]
+++++
+<a id="readme-top"></a>
+<div align="center">
+<a href="https://github.com/AMDphreak/zone-out/graphs/contributors"><img src="https://img.shields.io/github/contributors/AMDphreak/zone-out.svg?style=for-the-badge" alt="Contributors"></a>
+<a href="https://github.com/AMDphreak/zone-out/network/members"><img src="https://img.shields.io/github/forks/AMDphreak/zone-out.svg?style=for-the-badge" alt="Forks"></a>
+<a href="https://github.com/AMDphreak/zone-out/stargazers"><img src="https://img.shields.io/github/stars/AMDphreak/zone-out.svg?style=for-the-badge" alt="Stars"></a>
+<a href="https://github.com/AMDphreak/zone-out/issues"><img src="https://img.shields.io/github/issues/AMDphreak/zone-out.svg?style=for-the-badge" alt="Issues"></a>
+<a href="https://github.com/AMDphreak/zone-out/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AMDphreak/zone-out.svg?style=for-the-badge" alt="License"></a>
+<br />
+<h3 align="center">zone-out</h3>
+<p align="center">
+Windows CLI: map known-good download origins into Trusted Sites so Explorer PDF preview stops treating them as MotW hazards.<br />
+<a href="https://github.com/AMDphreak/zone-out/issues">Report Bug</a>
+&middot;
+<a href="https://github.com/AMDphreak/zone-out/issues">Request Feature</a>
+</p>
+</div>
+++++
+endif::[]
+
+ifndef::env-github[]
+image:https://img.shields.io/github/contributors/AMDphreak/zone-out.svg?style=for-the-badge[Contributors,link=https://github.com/AMDphreak/zone-out/graphs/contributors]
+image:https://img.shields.io/github/forks/AMDphreak/zone-out.svg?style=for-the-badge[Forks,link=https://github.com/AMDphreak/zone-out/network/members]
+image:https://img.shields.io/github/stars/AMDphreak/zone-out.svg?style=for-the-badge[Stars,link=https://github.com/AMDphreak/zone-out/stargazers]
+image:https://img.shields.io/github/issues/AMDphreak/zone-out.svg?style=for-the-badge[Issues,link=https://github.com/AMDphreak/zone-out/issues]
+image:https://img.shields.io/github/license/AMDphreak/zone-out.svg?style=for-the-badge[License,link=https://github.com/AMDphreak/zone-out/blob/main/LICENSE]
+
+= zone-out
+
+Windows CLI: map known-good download origins into Trusted Sites so Explorer PDF preview stops treating them as MotW hazards.
+
+link:https://github.com/AMDphreak/zone-out/issues[Report Bug] ·
+link:https://github.com/AMDphreak/zone-out/issues[Request Feature]
+endif::[]
+
+== About The Project
+
+Windows tags internet downloads with a Mark of the Web (`Zone.Identifier`). Explorer's PDF preview then warns that the file could harm the computer — even when the file is a Grok/ChatGPT export you just saved.
+
+*zone-out* writes those origins into the WinINet **Trusted Sites** Zone Map (`ZoneId=2`) so Attachment Manager / Chromium stop treating them as untrusted. It uses a curated first-party seed (AI export hosts, language docs, compiler sites) and a denylist for UGC hosts and object storage (`drive.google.com`, `s3.amazonaws.com`, `github.io`, …). Default write hive is **HKLM** when elevated, otherwise **HKCU**.
+
+It does **not** strip PDF JavaScript. It does **not** trust GitHub, Google Drive, or package registries. Firefox ignores this map.
+
+link:#readme-top[back to top]
+
+== Features
+
+* `apply` — write the bundled seed into the Zone Map
+* `add` / `remove` — one host, Public Suffix List splitting (`learn.microsoft.com` → `Domains\microsoft.com\learn`)
+* Denylist always wins (exit `4`)
+* `list`, `seed`, `denylist`, `doctor` (redacted dump)
+* Safe default writes to `HKCU`; use `--hive hklm` for machine-wide changes from an elevated terminal
+* `--dry-run`, `--json`, `--hive hklm|hkcu|both`
+
+link:#readme-top[back to top]
+
+== Built With
+
+Runtime:: D (DMD or LDC) + Win32 registry (`advapi32` / `shell32`)
+Data:: https://publicsuffix.org/[Public Suffix List] snapshot in `data/`
+Packaging:: DUB
+
+link:#readme-top[back to top]
+
+== Getting Started
+
+=== Requirements
+
+* Windows 10/11 (x64)
+* https://dlang.org/download.html[D compiler] + DUB (`ldc2` preferred)
+
+=== Build
+
+[source,powershell]
+----
+dub build --compiler=ldc2
+# Output: bin\zone-out.exe
+----
+
+=== Usage
+
+[source,powershell]
+----
+# Preview what the seed would write (no registry changes)
+.\bin\zone-out.exe apply --dry-run
+
+# Per-user (no elevation)
+.\bin\zone-out.exe apply --hive hkcu
+
+# Machine-wide Trusted Sites (Administrator terminal)
+.\bin\zone-out.exe apply --hive hklm
+
+.\bin\zone-out.exe add grok.com
+.\bin\zone-out.exe list
+.\bin\zone-out.exe doctor
+----
+
+`zone-out add drive.google.com` is rejected. That is the point.
+
+link:#readme-top[back to top]
+
+== Changelog
+
+See link:changelog.adoc[changelog.adoc].
+
+link:#readme-top[back to top]
+
+== License
+
+Distributed under the MIT License. See `LICENSE`.
+
+link:#readme-top[back to top]
+
+== Contact
+
+Ryan Johnson — https://github.com/AMDphreak
+
+Project: https://github.com/AMDphreak/zone-out
+
+link:#readme-top[back to top]
