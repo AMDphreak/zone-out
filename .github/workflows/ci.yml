@@ -10,7 +10,7 @@ jobs:
   test:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup D (LDC)
         uses: dlang-community/setup-dlang@v2
@@ -31,7 +31,7 @@ jobs:
         shell: pwsh
 
       - name: Upload exe
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: zone-out-windows-x64
           path: bin/zone-out.exe
