@@ -1,5 +1,6 @@
 ifndef::env-github[:icons: font]
-:toc: preamble
+:toc: macro
+:toc-title:
 :toclevels: 2
 :sectanchors:
 
@@ -38,6 +39,15 @@ Windows CLI: map known-good download origins into Trusted Sites so Explorer PDF 
 link:https://github.com/AMDphreak/zone-out/issues[Report Bug] ·
 link:https://github.com/AMDphreak/zone-out/issues[Request Feature]
 endif::[]
+
+++++
+<details>
+<summary>Table of Contents</summary>
+++++
+toc::[]
+++++
+</details>
+++++
 
 == About The Project
 

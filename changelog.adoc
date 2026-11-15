@@ -1,5 +1,12 @@
 = Changelog
 
+== 2026-11-15
+
+=== README contents list
+
+* The README contents list now sits under the header inside the expander.
+* Detail: link:changelog-details/2026-11-15%20-%20readme-contents-list.adoc[README contents list].
+
 == Unreleased — 2026-08-18
 
 * Initial CLI: apply a curated Trusted Sites seed into the Windows ZoneMap, add/remove/list, doctor dump, Public Suffix List splitting, denylist for UGC and object storage, and safe HKCU-by-default writes.
